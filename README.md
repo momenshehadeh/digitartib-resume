@@ -1,6 +1,6 @@
 # 🚀 Free Resume Builder Website
 
-![Logo](clinet/src/assets/banner.png)
+![Logo](client/src/assets/banner.png)
 
 
 ## 🌟 Overview
