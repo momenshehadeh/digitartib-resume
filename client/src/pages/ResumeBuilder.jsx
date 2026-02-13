@@ -15,6 +15,8 @@ import {
   Sparkles,
   User,
 } from "lucide-react";
+import { useReactToPrint } from "react-to-print";
+import { useRef } from "react";
 
 import PersonalInfoForm from "../components/PersonalInfoForm";
 import ResumePreview from "../components/ResumePreview";
@@ -32,6 +34,8 @@ import toast from "react-hot-toast";
 const ResumeBuilder = () => {
   const { resumeId } = useParams();
   const { token } = useSelector((state) => state.auth);
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
 
   const [resumeData, setResumeData] = useState({
     _id: "",
@@ -107,8 +111,6 @@ const ResumeBuilder = () => {
     }
   };
 
-  const downloadResume = () => window.print();
-
   const saveResume = async () => {
     try {
       const updatedResumeData = structuredClone(resumeData);
@@ -139,7 +141,7 @@ const ResumeBuilder = () => {
   return (
     <div>
       {/* Top Navigation */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 py-6" data-hidden>
         <Link
           to="/app"
           className="inline-flex gap-2 items-center text-slate-500 hover:text-slate-700 transition-all"
@@ -152,7 +154,7 @@ const ResumeBuilder = () => {
       <div className="max-w-7xl mx-auto px-4 pb-8">
         <div className="grid lg:grid-cols-12 gap-8">
           {/* Left Panel */}
-          <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
+          <div className="relative lg:col-span-5 rounded-lg overflow-hidden" >
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1">
               {/* Progress Line */}
               <hr className="absolute top-0 left-0 right-0 border-2 border-gray-200" />
@@ -277,7 +279,7 @@ const ResumeBuilder = () => {
 
           {/* Right Panel / Resume Preview */}
           <div className="lg:col-span-7 max-lg:mt-6 relative">
-            <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
+            <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2" >
               {resumeData.public && (
                 <button
                   onClick={handleShare}
@@ -294,18 +296,20 @@ const ResumeBuilder = () => {
                 {resumeData.public ? "Public" : "Private"}
               </button>
               <button
-                onClick={downloadResume}
+                onClick={reactToPrintFn}
                 className="flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-br from-green-100 to-green-200 text-green-600 ring-green-300 rounded-lg hover:ring transition-colors"
               >
                 <DownloadIcon className="size-4" /> Download
               </button>
             </div>
 
-            <ResumePreview
-              data={resumeData}
-              template={resumeData.template}
-              accentColor={resumeData.accent_color}
-            />
+            <div className="print-area" ref={contentRef}>
+              <ResumePreview
+                data={resumeData}
+                template={resumeData.template}
+                accentColor={resumeData.accent_color}
+              />
+            </div>
           </div>
         </div>
       </div>
