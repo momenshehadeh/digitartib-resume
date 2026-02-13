@@ -1,6 +1,6 @@
 # 🚀 Free Resume Builder Website
 
-![Website Banner](<img width="1324" height="610" alt="Screenshot 2026-02-13 152239" src="https://github.com/user-attachments/assets/12cde044-921e-4bee-8775-24dd88c1eeb1" />)
+![Logo](clinet/src/assets/banner.png)
 
 
 ## 🌟 Overview
